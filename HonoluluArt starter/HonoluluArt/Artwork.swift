@@ -27,7 +27,7 @@ class Artwork: NSObject, MKAnnotation {
 
 	init?(json: [Any]) {
 		self.title = json[16] as? String ?? "No Title"
-		self.locationName = json[12] as! String
+		self.locationName = json[11] as! String
 		self.discipline = json[15] as! String
 
 		if let latitude = Double(json[18] as! String),
@@ -42,10 +42,26 @@ class Artwork: NSObject, MKAnnotation {
 		return locationName
 	}
 
+	var markerTintColor: UIColor {
+		switch discipline {
+		case "Monument":
+			return .red
+		case "Mural":
+			return .cyan
+		case "Plaque":
+			return .blue
+		case "Sculpture":
+			return .purple
+		default:
+			return .green
+		}
+	}
+
+
 	// Helper Methods
 	func mapItem() -> MKMapItem {
 		let addressDict = [CNPostalAddressStreetKey: subtitle]
-		let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: addressDict)
+		let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: addressDict as [String : Any])
 		let mapItem = MKMapItem(placemark: placemark)
 		mapItem.name = title
 		return mapItem

@@ -24,6 +24,8 @@ class ViewController: UIViewController {
 //						  coordinate: CLLocationCoordinate2D(latitude: 21.283921, longitude: -157.831661))
 //	mapView.addAnnotation(artwork)
 
+	mapView.register(ArtworkMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+
 	loadInitialData()
 	mapView.addAnnotations(artworks)
   }
@@ -72,11 +74,11 @@ extension ViewController: MKMapViewDelegate {
 		return view
 	}
 
-	func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
-				 calloutAccessoryControlTapped control: UIControl) {
-		let location = view.annotation as! Artwork
-		let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
-		location.mapItem().openInMaps(launchOptions: launchOptions)
-	}
+//	func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
+//				 calloutAccessoryControlTapped control: UIControl) {
+//		let location = view.annotation as! Artwork
+//		let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+//		location.mapItem().openInMaps(launchOptions: launchOptions)
+//	}
 }
 
