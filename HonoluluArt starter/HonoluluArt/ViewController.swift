@@ -7,6 +7,9 @@ class ViewController: UIViewController {
 
 	@IBOutlet weak var mapView: MKMapView!
 
+	// MARK: - Properties
+	var artworks: [Artwork] = []
+
   override func viewDidLoad() {
     super.viewDidLoad()
 	let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
@@ -31,6 +34,19 @@ class ViewController: UIViewController {
 		mapView.setRegion(coordinateRegion, animated: true)
 	}
 
+	func loadInitialData() {
+		guard  let fileName = Bundle.main.path(forResource: "PublicArt", ofType: "json") else { return }
+
+		let optionalData = try? Data(contentsOf: URL(fileURLWithPath: fileName))
+
+		guard let data = optionalData,
+			let json = try? JSONSerialization.jsonObject(with: data),
+			let dictionary = json as? [String: Any],
+		let works = dictionary["data"] as? [[Any]]
+			else { return }
+		let validWorks = works.compactMap { Artwork(json: $0) }
+		artworks.append(contentsOf: validWorks)
+	}
 }
 
 extension ViewController: MKMapViewDelegate {
